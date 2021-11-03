@@ -59,6 +59,7 @@ class Partido {
     Equipo equipoLocal;
     Equipo equipoVisitante;
     string tipo;
+    string resultado;
 
    public:
     Partido(Equipo, Equipo, string);
@@ -67,10 +68,12 @@ class Partido {
     Equipo getEquipoLocal();
     Equipo getEquipoVisitante();
     string getTipo();
+    string getResultado();
 
     void setEquipoLocal(Equipo);
     void setEquipoVisitante(Equipo);
     void setTipo(string);
+    void setResultado(string);
 
     string toString();
 };
@@ -96,6 +99,10 @@ string Partido::getTipo() {
     return tipo;
 }
 
+string Partido::getResultado() {
+    return resultado;
+}
+
 void Partido::setEquipoLocal(Equipo equipoLocal) {
     this->equipoLocal = equipoLocal;
 }
@@ -106,6 +113,10 @@ void Partido::setEquipoVisitante(Equipo equipoVisitante) {
 
 void Partido::setTipo(string tipo) {
     this->tipo = tipo;
+}
+
+void Partido::setResultado(string resultado) {
+    this->resultado = resultado;
 }
 
 string Partido::toString() {
@@ -125,22 +136,31 @@ int main(int argc, char const *argv[]) {
     int numPartidos = (equipos.size() - 1) * 2;
 
     for (int i = 0; i < equipos.size() - 1; i++) {
-
-        for (int j = i; j < equipos.size() - 1 ; j++) {
-            cout<<i<<endl;
+        for (int j = i; j < equipos.size() - 1; j++) {
+            cout << i << endl;
             Partido partidoIda(equipos.at(i), equipos.at(j + 1), "IDA");
-            Partido partidoVuelta(equipos.at(i), equipos.at(j + 1), "Vuelta");
+            Partido partidoVuelta(equipos.at(j + 1), equipos.at(i), "Vuelta");
             partidos.push_back(partidoIda);
             partidos.push_back(partidoVuelta);
         }
     }
 
-    
-    for (int i = 0; i < partidos.size(); i++)
-    {
-        cout << "Partido numero " + to_string(i+1) + " " + partidos.at(i).toString();
+    for (int i = 0; i < partidos.size(); i++) {
+        cout << "Partido numero " + to_string(i + 1) + " " + partidos.at(i).toString();
     }
-    
+
+    //Pedir resultados
+    string resultado;
+    for (int i = 0; i < partidos.size(); i++) {
+        cout << "Introduce el resultado del partido numero " + to_string(i + 1) + " " + partidos.at(i).toString();
+        getline(cin, resultado);
+        partidos.at(i).setResultado(resultado);
+    }
+
+    //Mostrar resultados
+    for (int i = 0; i < partidos.size(); i++) {
+        cout << "Local:  " + partidos.at(i).getEquipoLocal().getNombre() + " Visitante: " + partidos.at(i).getEquipoVisitante().getNombre() + " Resultado: " + partidos.at(i).getResultado() << endl;
+    }
 
     return 0;
 }
